@@ -1,13 +1,17 @@
 import { Home, Mail, Notifications } from "@mui/icons-material";
 import avatar from "../img/profile.jpg";
 import i18next from "i18next";
+import cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   Avatar,
   Badge,
   Box,
+  Divider,
   IconButton,
   InputBase,
+  ListItem,
   Menu,
   MenuItem,
   Toolbar,
@@ -15,7 +19,8 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
@@ -40,17 +45,9 @@ const Userbox = styled(Box)(({ theme }) => ({
   gap: "10px",
   [theme.breakpoints.up("sm")]: { display: "none" },
 }));
+
+//
 const Navbar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const openlan = Boolean(anchorEl);
-  const handleClick   = (event,code) => {
-    setAnchorEl(event.currentTarget);
-     i18next.changeLanguage(code)
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const [open, setOpen] = useState(false);
   const languages = [
     {
       code: "en",
@@ -61,8 +58,32 @@ const Navbar = () => {
       code: "ar",
       name: "العربية",
       country_code: "SA",
+      dir: "rtl",
     },
   ];
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openlan = Boolean(anchorEl);
+  const currentlanCode = cookies.get("i18next") || "en";
+  const currentLan = languages.find((l) => l.code === currentlanCode);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  function handleClickTrans(event, code) {
+    setAnchorEl(event.currentTarget.Menu);
+
+    i18next.changeLanguage(code);
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const [open, setOpen] = useState(false);
+
+  const { t } = useTranslation();
+  useEffect(() => {
+    document.body.dir = currentLan.dir || "ltr";
+  }, [currentLan]);
   return (
     <>
       <AppBar position="sticky">
@@ -71,7 +92,7 @@ const Navbar = () => {
             variant="h6"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Aakar
+            {t("site_name")}
           </Typography>
           <Home sx={{ display: { xs: "block", sm: "none" } }} />
           <Search>
@@ -195,7 +216,7 @@ const Navbar = () => {
                 {languages.map(({ code, country_code, name }) => (
                   <MenuItem
                     key={country_code}
-                    onClick={handleClick(code)}
+                    onClick={(e) => handleClickTrans(e, code)}
                   >
                     {name}
                   </MenuItem>

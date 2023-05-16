@@ -1,6 +1,7 @@
 {
   "app_title":"Aakar",
     "welcome_message": "Welcome to React and react-i18next",
+    "site_name":"Aakar",
     "language":"Language"
 
   }
