@@ -1,29 +1,18 @@
-import {
-  Home,
-  KeyboardArrowDown,
-  Logout,
-  Mail,
-  Notifications,
-  PersonAdd,
-  Settings,
-} from "@mui/icons-material";
+import { Home, Mail, Notifications } from "@mui/icons-material";
 import avatar from "../img/profile.jpg";
+import i18next from "i18next";
 import {
   AppBar,
   Avatar,
   Badge,
   Box,
-  Button,
-  Divider,
   IconButton,
   InputBase,
-  ListItemIcon,
   Menu,
   MenuItem,
   Toolbar,
   Tooltip,
   Typography,
-  alpha,
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -54,8 +43,9 @@ const Userbox = styled(Box)(({ theme }) => ({
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openlan = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick   = (event,code) => {
     setAnchorEl(event.currentTarget);
+     i18next.changeLanguage(code)
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -202,8 +192,14 @@ const Navbar = () => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem onClick={handleClose}>English</MenuItem>
-                <MenuItem onClick={handleClose}>العربية</MenuItem>
+                {languages.map(({ code, country_code, name }) => (
+                  <MenuItem
+                    key={country_code}
+                    onClick={handleClick(code)}
+                  >
+                    {name}
+                  </MenuItem>
+                ))}
               </Menu>
             </MenuItem>
           </Menu>

@@ -3,7 +3,6 @@ import {
   Favorite,
   Home,
   ModeNight,
-  PersonOffOutlined,
   Settings,
 } from "@mui/icons-material";
 import {
@@ -13,7 +12,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   Switch,
 } from "@mui/material";
 import React from "react";
