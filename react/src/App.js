@@ -18,7 +18,6 @@ function App() {
 
   return (
     <>
-      {" "}
       <BrowserRouter></BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <Box bgcolor={"background.default"} color={"text.primary"}>
